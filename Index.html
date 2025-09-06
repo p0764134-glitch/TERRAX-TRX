@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TerraX (TRX) Demo</title>
+<style>
+body { font-family: Arial, sans-serif; background-color:#0b0f1a; color:#e8f3ff; margin:0; padding:0; }
+section { padding:40px; border-bottom:1px solid #222; }
+h1, h2 { color:#6dfcff; }
+button { margin:5px; padding:10px 20px; background:#7a5cff; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+canvas { background:#111; display:block; margin:10px 0; border-radius:8px; }
+#chat-box { background:#111; padding:10px; border-radius:8px; }
+#messages { max-height:150px; overflow-y:auto; margin-bottom:5px; }
+#chat-input { width:70%; padding:5px; }
+</style>
+</head>
+<body><section id="hero">
+  <h1>TerraX (TRX)</h1>
+  <p>Next-gen community token powered by Moonshot app</p>
+  <div class="buttons">
+    <button>Buy</button>
+    <button>Chart</button>
+    <button>Moonshot App</button>
+  </div>
+</section><section id="who-we-are">
+  <h2>Who We Are</h2>
+  <p>Community-driven crypto project inspired by decentralization and transparency.</p>
+</section><section id="our-story">
+  <h2>Our Story</h2>
+  <p>Started as a vision to create a fun, fast, and community-focused token.</p>
+</section><section id="tokenomics">
+  <h2>Tokenomics</h2>
+  <p>Supply, utility, taxes - placeholders to be filled.</p>
+</section><section id="roadmap">
+  <h2>Roadmap</h2>
+  <p>Q1–Q4 milestones - Coming Soon.</p>
+</section><section id="live-prices">
+  <h2>Live Prices</h2>
+  <div id="prices"></div>
+</section><section id="mini-game">
+  <h2>Mini Game</h2>
+  <canvas id="gameCanvas" width="300" height="150"></canvas>
+  <p>Click the coin to collect TRX!</p>
+</section><section id="chat">
+  <h2>Community Chat</h2>
+  <div id="chat-box">
+    <div id="messages"></div>
+    <input type="text" id="chat-input" placeholder="Type a message...">
+    <button id="send-btn">Send</button>
+  </div>
+</section><script>
+// Mini Game
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+let coinX = Math.random() * 250, coinY = Math.random() * 100, score = 0;
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  if(x > coinX && x < coinX+30 && y > coinY && y < coinY+30){ score++; coinX=Math.random()*250; coinY=Math.random()*100; draw(); }
+});
+function draw(){
+  ctx.fillStyle="#111"; ctx.fillRect(0,0,300,150);
+  ctx.fillStyle="#ff0"; ctx.beginPath(); ctx.arc(coinX+15,coinY+15,15,0,2*Math.PI); ctx.fill();
+  ctx.fillStyle="#6dfcff"; ctx.fillText("Score: "+score,10,140);
+}
+draw();
+
+// Dummy Chat
+const messages = document.getElementById('messages');
+const input = document.getElementById('chat-input');
+document.getElementById('send-btn').addEventListener('click',()=>{
+  if(input.value){const p=document.createElement('p');p.textContent=input.value;messages.appendChild(p);input.value='';messages.scrollTop=messages.scrollHeight;}
+});
+
+// Dummy Live Prices
+const pricesDiv = document.getElementById('prices');
+const dummyPrices = [{"name":"TRX","price":"0.05"},{"name":"BTC","price":"27300"},{"name":"ETH","price":"1850"}];
+dummyPrices.forEach(c=>{const p=document.createElement('p');p.textContent=`${c.name}: $${c.price}`;pricesDiv.appendChild(p);});
+</script></body>
+</html>
